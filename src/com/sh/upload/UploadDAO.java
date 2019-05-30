@@ -3,10 +3,31 @@ package com.sh.upload;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sh.util.DBConnector;
 
 public class UploadDAO {
+	//selectList
+		public List<UploadDTO> selectList(int num, Connection con) throws Exception{
+			ArrayList<UploadDTO> ar = new ArrayList<UploadDTO>();
+			String sql = "select * from upload where num=?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, num);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				UploadDTO uploadDTO = new UploadDTO();
+				uploadDTO.setPnum(rs.getInt("pnum"));
+				uploadDTO.setNum(rs.getInt("num"));
+				uploadDTO.setoName(rs.getString("oName"));
+				uploadDTO.setFileName(rs.getString("fileName"));
+				ar.add(uploadDTO);
+			}
+			rs.close();
+			st.close();
+			return ar;
+		}
 	
 	//select
 	public UploadDTO selectOne(int num)throws Exception{
@@ -36,6 +57,16 @@ public class UploadDAO {
 		st.setInt(1, uploadDTO.getNum());
 		st.setString(2, uploadDTO.getoName());
 		st.setString(3, uploadDTO.getFileName());
+		result = st.executeUpdate();
+		st.close();
+		return result;
+	}
+	
+	public int Delete(int pnum, Connection conn)throws Exception{
+		int result = 0;
+		String sql = "delete from upload where pnum=?";
+		PreparedStatement st = conn.prepareStatement(sql);
+		st.setInt(1, pnum);
 		result = st.executeUpdate();
 		st.close();
 		return result;

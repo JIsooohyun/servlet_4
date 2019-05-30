@@ -1,31 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+ <!--  <filter>
+    <filter-name>f1</filter-name>
+    <filter-class>com.sh.filter.FilterTest1</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>f1</filter-name>
+    <url-pattern>/notice/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>f2</filter-name>
+    <filter-class>com.sh.filter.FilterTest2</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>f2</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping> -->
+  <!-- 전체에서 쓰는 파라미터 -->
+  <context-param>
+  	<param-name>view</param-name>
+  	<param-value>../WEB-INF/views/</param-value>
+  </context-param>
+  <filter>
+  	<filter-name>encoding</filter-name>
+  	<filter-class>com.sh.filter.EncodingFilter</filter-class>
+  	<init-param>
+  		<param-name> kind</param-name>
+  		<param-value>UTF-8</param-value>
+  	</init-param>
+  </filter>
+  <filter-mapping>
+  	<filter-name>encoding</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
   <servlet>
-  	<servlet-name>home</servlet-name>
-  	<servlet-class>com.sh.control.HomeController</servlet-class>
+    <servlet-name>home</servlet-name>
+    <servlet-class>com.sh.control.HomeController</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>home</servlet-name>
-  	<url-pattern>/index.do</url-pattern>  <!-- 가상의 주소  /index.do가 경로창에 들어있으면 HomeController가 실행-->
+    <servlet-name>home</servlet-name>
+    <url-pattern>/index.do</url-pattern>
   </servlet-mapping>
-  
   <servlet>
-  	<servlet-name>qna</servlet-name>
-  	<servlet-class>com.sh.control.QnaController</servlet-class>
+    <servlet-name>qna</servlet-name>
+    <servlet-class>com.sh.control.QnaController</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>qna</servlet-name>
-  	<url-pattern>/qna/*</url-pattern>
+    <servlet-name>qna</servlet-name>
+    <url-pattern>/qna/*</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <servlet-name>notice</servlet-name>
     <servlet-class>com.sh.control.NoticeController</servlet-class>
+    <init-param>
+    	<param-name>board</param-name>
+    	<param-value>notice</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>notice</servlet-name>
     <url-pattern>/notice/*</url-pattern>
   </servlet-mapping>
-  
- 
+  <servlet>
+    <servlet-name>member</servlet-name>
+    <servlet-class>com.sh.control.MemberController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>member</servlet-name>
+    <url-pattern>/member/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>file</servlet-name>
+    <servlet-class>com.sh.control.UploadController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>file</servlet-name>
+    <url-pattern>/file/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>comments</servlet-name>
+    <servlet-class>com.sh.control.CommentsController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>comments</servlet-name>
+    <url-pattern>/comments/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>json</servlet-name>
+    <servlet-class>com.sh.control.JsonController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>json</servlet-name>
+    <url-pattern>/json/*</url-pattern>
+  </servlet-mapping>
 </web-app>

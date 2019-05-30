@@ -78,8 +78,41 @@ public class QnaService implements Action {
 	@Override
 	public ActionForward select(HttpServletRequest request, HttpServletResponse response) {
 		ActionForward actionForward = new ActionForward();
-
+		BoardDTO boardDTO = null;
+		List<UploadDTO> ar = null;
+		Connection conn=null;
+		try {
+			conn = DBConnector.getConnect();
+			int num = Integer.parseInt(request.getParameter("num"));
+			boardDTO = qnaDAO.selectOne(num, conn);
+			ar = uploadDAO.selectList(num, conn);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		String path="";
+		if(boardDTO != null) {
+			request.setAttribute("dto", boardDTO);
+			request.setAttribute("upload", ar);
+			path ="../WEB-INF/views/board/boardSelect.jsp";
+		}else {
+			request.setAttribute("msg", "No Data");
+			request.setAttribute("path", "./noticeList");
+			path="../WEB-INF/views/common/result.jsp";
+		}
+		//글이 있으면 출력
+		//글이 없으면 삭제되었거나 없는 글입니다.(alert) 리스트로 
+		actionForward.setCheck(true);
+		actionForward.setPath(path);
 		return actionForward;
+
 	}
 
 	@Override
@@ -168,7 +201,37 @@ public class QnaService implements Action {
 	@Override
 	public ActionForward update(HttpServletRequest request, HttpServletResponse response) {
 		ActionForward actionForward = new ActionForward();
-
+		actionForward.setCheck(true);
+		actionForward.setPath("../WEB-INF/views/board/boardUpdate.jsp");
+		String method = request.getMethod();
+		
+		if(method.equals("POST")) {
+			//MultipartRequest multi = new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
+		}else {
+			int num = Integer.parseInt(request.getParameter("num"));
+			Connection conn=null;
+			BoardDTO boardDTO = null;
+			List<UploadDTO> ar = null;
+			try {
+				conn = DBConnector.getConnect();
+				boardDTO = qnaDAO.selectOne(num, conn);
+				ar = uploadDAO.selectList(num, conn);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}//finally
+			request.setAttribute("dto", boardDTO);
+			request.setAttribute("upload", ar);
+			
+		}//GET
+		
+		
 		return actionForward;
 	}
 

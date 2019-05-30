@@ -67,7 +67,7 @@
 		//새창 여는 코드
 		$('#idcheck').click(function() {
 			var id = $('#id').val();
-			open('./idcheck.jsp?id='+id,"_blank", "width=500, height=300");
+			open("./idCheck?id="+id, "_blank", "width=500, height=300");
 		});
 		
 		//ID 10자 미만

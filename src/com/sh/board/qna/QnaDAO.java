@@ -9,6 +9,7 @@ import java.util.List;
 import com.sh.board.BoardDAO;
 import com.sh.board.BoardDTO;
 import com.sh.page.SearchRow;
+import com.sh.upload.UploadDTO;
 import com.sh.util.DBConnector;
 
 public class QnaDAO implements BoardDAO {
@@ -55,6 +56,15 @@ public class QnaDAO implements BoardDAO {
 //		st.setInt(5, boardDTO.getNum());
 //		result = st.executeUpdate();
 //		st.close();
+		String sql ="insert into qna values(?,?,?,?,sysdate,0,?,0,0)";
+		PreparedStatement st = conn.prepareStatement(sql);
+		st.setInt(1, boardDTO.getNum());
+		st.setString(2, boardDTO.getTitle());
+		st.setString(3, boardDTO.getContents());
+		st.setString(4, boardDTO.getWriter());
+		st.setInt(5, boardDTO.getNum());
+		result = st.executeUpdate();
+		st.close();
 		return result;
 	}
 
@@ -72,8 +82,23 @@ public class QnaDAO implements BoardDAO {
 
 	@Override
 	public BoardDTO selectOne(int num, Connection conn) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		QnaDTO qnaDTO = null;
+		String sql ="select * from qna where num=?";
+		PreparedStatement st = conn.prepareStatement(sql);
+		st.setInt(1, num);
+		ResultSet rs = st.executeQuery();
+		if(rs.next()) {
+			qnaDTO = new QnaDTO();
+			qnaDTO.setNum(rs.getInt("num"));
+			qnaDTO.setTitle(rs.getString("title"));
+			qnaDTO.setContents(rs.getString("contents"));
+			qnaDTO.setWriter(rs.getString("writer"));
+			qnaDTO.setReg_date(rs.getString("reg_date"));
+			qnaDTO.setHit(rs.getInt("hit"));
+		}
+		rs.close();
+		st.close();
+		return qnaDTO;
 	}
 
 	@Override

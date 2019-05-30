@@ -16,7 +16,7 @@
 
     <c:if test="${sessionScope.memberDTO ne null}">
       <li><a href="<%=application.getContextPath()%>/member/memberCheck">My Page</a></li>    
-      <li><a href="<%=application.getContextPath()%>/member/memberLogin">Logout</a></li>
+      <li><a href="<%=application.getContextPath()%>/member/memberLogout">Logout</a></li>
     </c:if>
     <c:if test="${sessionScope.memberDTO eq null}">
       <li><a href="<%=application.getContextPath()%>/member/memberCheck">Sign Up</a></li>
